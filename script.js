@@ -143,15 +143,17 @@ form.addEventListener("submit", function (e) {
 
 // Intersection Observer for fade-in animations
 const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
+    threshold: 0,
+    rootMargin: '0px 0px 100px 0px'
 };
 
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
+            entry.target.style.transform = 'translate3d(0, 0, 0) scale(1)';
+            entry.target.style.filter = 'blur(0px)';
+            observer.unobserve(entry.target);
         }
     });
 }, observerOptions);
@@ -159,13 +161,16 @@ const observer = new IntersectionObserver((entries) => {
 // Apply animations to cards and sections
 document.addEventListener('DOMContentLoaded', () => {
     const animatedElements = document.querySelectorAll(
-        '.priority-block, .value-card, .practice-card, .process-step, .benefit-card'
+        '.priorities .section-title, .priorities-grid .priority-block, .priorities-description, .value-card, .practice-card, .process-step, .benefit-card'
     );
     
     animatedElements.forEach((el, index) => {
+        const horizontalOffset = index % 2 === 0 ? -34 : 34;
         el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+        el.style.transform = `translate3d(${horizontalOffset}px, 40px, 0) scale(0.96)`;
+        el.style.filter = 'blur(10px)';
+        const stagger = Math.min(index * 0.03, 0.24);
+        el.style.transition = `opacity 0.58s cubic-bezier(0.22, 1, 0.36, 1) ${stagger}s, transform 0.58s cubic-bezier(0.22, 1, 0.36, 1) ${stagger}s, filter 0.52s ease-out ${stagger}s`;
         observer.observe(el);
     });
 });
