@@ -706,6 +706,14 @@ section {
     color: var(--gold);
 }
 
+.detail-text:visited {
+    color: var(--white);
+}
+
+.detail-text:active {
+    color: var(--white);
+}
+
 .contact-form-wrapper {
     padding: var(--spacing-lg);
     background-color: var(--white);

@@ -175,79 +175,43 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Add click-to-call functionality for phone number
-document.querySelectorAll('.detail-text').forEach(element => {
-    if (element.textContent.includes('(718)')) {
-        element.style.cursor = 'pointer';
-        element.addEventListener('click', () => {
-            window.location.href = 'tel:+17183623111';
-        });
-    }
-});
-
-// Add click-to-email functionality
-document.querySelectorAll('.detail-text').forEach(element => {
-    if (element.textContent.includes('@')) {
-        element.style.cursor = 'pointer';
-        element.addEventListener('click', () => {
-            window.location.href = 'mailto:ladniklaw@gmail.com';
-        });
-    }
-});
+// Phone and email are now native anchor tags, no JS click handlers needed
 
 // Practice Card Flip Functionality for Mobile/Touch Devices
 document.addEventListener('DOMContentLoaded', () => {
-    const practiceGrid = document.querySelector('.practice-grid');
     const practiceCards = document.querySelectorAll('.practice-card');
 
-    if (!practiceGrid || practiceCards.length === 0) return;
-
-    const isTouchDevice = window.matchMedia('(hover: none), (pointer: coarse)').matches ||
-        ('ontouchstart' in window) ||
-        (navigator.maxTouchPoints > 0);
+    const isTouchDevice = ('ontouchstart' in window) ||
+        (navigator.maxTouchPoints > 0) ||
+        (navigator.msMaxTouchPoints > 0);
 
     if (!isTouchDevice) return;
 
-    const closeOtherCards = (activeCard) => {
-        practiceCards.forEach((card) => {
-            if (card !== activeCard) {
-                card.classList.remove('flipped');
+    practiceCards.forEach(card => {
+        card.addEventListener('click', function(e) {
+            // Allow scrolling on back side text
+            if (e.target.closest('.practice-description-detailed') && this.classList.contains('flipped')) {
+                return;
             }
+            
+            // Close all other cards
+            practiceCards.forEach(otherCard => {
+                if (otherCard !== this) {
+                    otherCard.classList.remove('flipped');
+                }
+            });
+            
+            // Toggle this card
+            this.classList.toggle('flipped');
         });
-    };
-
-    const toggleCard = (card) => {
-        closeOtherCards(card);
-        card.classList.toggle('flipped');
-    };
-
-    // Pointer events are more reliable than touchend on modern iOS Safari.
-    practiceGrid.addEventListener('pointerup', (e) => {
-        const card = e.target.closest('.practice-card');
-        if (!card) return;
-
-        const scrollableText = e.target.closest('.practice-description-detailed');
-        if (scrollableText && card.classList.contains('flipped')) return;
-
-        e.preventDefault();
-        toggleCard(card);
     });
 
-    // Fallback for browsers that may not emit pointer events consistently.
-    practiceGrid.addEventListener('click', (e) => {
-        const card = e.target.closest('.practice-card');
-        if (!card) return;
-
-        const scrollableText = e.target.closest('.practice-description-detailed');
-        if (scrollableText && card.classList.contains('flipped')) return;
-
-        e.preventDefault();
-        toggleCard(card);
-    });
-
-    document.addEventListener('pointerup', (e) => {
+    // Close all cards when clicking outside
+    document.addEventListener('click', (e) => {
         if (!e.target.closest('.practice-card')) {
-            practiceCards.forEach((card) => card.classList.remove('flipped'));
+            practiceCards.forEach(card => {
+                card.classList.remove('flipped');
+            });
         }
     });
 });
