@@ -199,3 +199,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// Show overflow indicator only on practice cards with clipped detailed text.
+document.addEventListener('DOMContentLoaded', () => {
+    const updatePracticeOverflowState = () => {
+        const practiceCardBacks = document.querySelectorAll('.practice-card-back');
+
+        practiceCardBacks.forEach((cardBack) => {
+            const detailedText = cardBack.querySelector('.practice-description-detailed');
+            if (!detailedText) return;
+
+            const hasOverflow = detailedText.scrollHeight > detailedText.clientHeight + 1;
+            cardBack.classList.toggle('has-overflow', hasOverflow);
+        });
+    };
+
+    updatePracticeOverflowState();
+    window.addEventListener('resize', updatePracticeOverflowState);
+});
