@@ -16,3 +16,9 @@
 # Exclude OS metadata
 .DS_Store
 **/.DS_Store
+
+# Playwright and local automation artifacts
+node_modules/
+playwright-report/
+test-results/
+.tmp-playwright/
