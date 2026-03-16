@@ -970,6 +970,18 @@ section:nth-of-type(even):not(.hero):not(.contact) {
 }
 
 @media (max-width: 768px) and (orientation: portrait) {
+  .hero {
+    min-height: 100svh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero-cta-wrap {
+    margin-top: auto;
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+
   .hero-top-rule {
     display: none;
   }
