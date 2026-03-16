@@ -1,0 +1,18 @@
+# Ignore everything by default
+*
+
+# Keep this file
+!.gitignore
+
+# Keep requested project files
+!index.html
+!styles.css
+!script.js
+
+# Keep assets folder and its contents
+!assets/
+!assets/**
+
+# Exclude OS metadata
+.DS_Store
+**/.DS_Store
