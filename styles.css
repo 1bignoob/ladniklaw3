@@ -979,6 +979,7 @@ section:nth-of-type(even):not(.hero):not(.contact) {
 
   .hero-cta-wrap {
     margin-top: auto;
+    margin-bottom: 15svh;
     padding-bottom: max(1rem, env(safe-area-inset-bottom));
   }
 
