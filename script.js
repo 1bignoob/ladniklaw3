@@ -20,8 +20,8 @@ if (navToggle && navMenu) {
         });
     });
 
-    // Close the menu when clicking outside the nav
-    document.addEventListener('click', (event) => {
+    // Close the menu when tapping/clicking outside the nav
+    document.addEventListener('pointerdown', (event) => {
         if (!navMenu.classList.contains('active')) return;
         if (navMenu.contains(event.target) || navToggle.contains(event.target)) return;
         setMenuState(false);
